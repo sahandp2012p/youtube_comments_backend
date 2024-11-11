@@ -15,7 +15,6 @@ from sqlalchemy.orm import sessionmaker, Session
 
 from backend.get_sentiments import get_sentiment
 from backend.get_emojis import get_emojis
-from backend.downloads import download
 
 load_dotenv()
 
@@ -168,12 +167,6 @@ async def get_current_active_user(current_user: UserDB = Depends(get_current_use
         )
     return current_user
 
-
-@app.on_event("startup")
-async def startup_event():
-    background_tasks = BackgroundTasks()
-    background_tasks.add_task(download)
-    await background_tasks()
 
 
 @app.post("/users/", response_model=User)
